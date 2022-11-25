@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 const baseUrl = "https://d60d-2a09-bac0-412-00-81d-6928.ap.ngrok.io";
@@ -12,7 +13,7 @@ class AuthRepository {
       var response = await client.get(
         uri,
         headers: {
-          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyIjp7IklEIjoxLCJDcmVhdGVkQXQiOiIyMDIyLTExLTI1VDA4OjExOjE4LjIxMiswNzowMCIsIlVwZGF0ZWRBdCI6IjIwMjItMTEtMjVUMDg6MTE6MTguMjEyKzA3OjAwIiwiRGVsZXRlZEF0IjpudWxsLCJOSU0iOiIyMTUxNTA3MDAxMTEwMzUiLCJOYW1hIjoiREFGRkEgTkFCSUwgSEFLSU0iLCJKZW5qYW5nIjoiUzEiLCJGYWt1bHRhcyI6IklsbXUgS29tcHV0ZXIiLCJKdXJ1c2FuIjoiVGVrbm9sb2dpIEluZm9ybWFzaSIsIlByb2dyYW1TdHVkaSI6IlRla25vbG9naSBJbmZvcm1hc2kiLCJTZWxla3NpIjoiU2VsZWtzaSBCZXJzYW1hIE1hc3VrIFBlcmd1cnVhbiBUaW5nZ2kgTmVnZXJpIEJyYXdpamF5YSAtIE1hbGFuZyIsIk5vbW9yVWppYW4iOiIxMjEzNzIwMjA2MjIiLCJKYWR3YWxEYXJpVXNlciI6bnVsbCwiS3JzSmR1IjpudWxsLCJLcnNKZHMiOm51bGx9LCJleHAiOjE2Njk1MTE0Nzh9.P80IcoH45RrCyWQv-qdz6Nxpsh4XWQXkjJweQU5QjUs",
+          "Authorization": dotenv.get('TOKEN_KEY'),
         },
       );
 
