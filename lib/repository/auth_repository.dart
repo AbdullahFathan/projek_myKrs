@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
-const baseUrl = "https://d60d-2a09-bac0-412-00-81d-6928.ap.ngrok.io";
+var baseUrl = dotenv.get('BASE_URL');
 
 class AuthRepository {
   var client = http.Client();
