@@ -6,21 +6,23 @@ import 'package:mykrs_projek/widget/top_navbar.dart';
 import '../bloc/auth/auth_bloc.dart';
 import 'daftar_jadwal_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class DaftarPage extends StatefulWidget {
+  const DaftarPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<DaftarPage> createState() => _DaftarPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _DaftarPageState extends State<DaftarPage> {
   final TextEditingController _nimTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _namaTextController = TextEditingController();
   bool isObscure = true;
   @override
   void dispose() {
     _passwordTextController.dispose();
     _nimTextController.dispose();
+    _namaTextController.dispose();
     super.dispose();
   }
 
@@ -115,15 +117,35 @@ class _LoginPageState extends State<LoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Selamat Datang 👋",
+                        "Buat Akun",
                         style: titlePageStlye,
                       ),
                       const SizedBox(
                         height: 16,
                       ),
                       Text(
-                        "Silahkan masuk terlebih dahulu\nuntuk membuat Plan KRS Anda",
-                        style: subPageStlye.copyWith(fontSize: 24),
+                        "Nama",
+                        style: loginSubPageStlye,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, bottom: 5),
+                        height: 50,
+                        width: 450,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all()),
+                        child: TextField(
+                          controller: _namaTextController,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Masukkan nama",
+                            hintStyle: subPageStlye.copyWith(fontSize: 20),
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         height: 16,
@@ -188,18 +210,10 @@ class _LoginPageState extends State<LoginPage> {
                               )),
                         ),
                       ),
-                      SizedBox(
-                        height: 45,
-                        width: 450,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: Text(
-                            "Lupa Password?",
-                            style: lilteBluestlye,
-                            textAlign: TextAlign.right,
-                          ),
-                        ),
+                      const SizedBox(
+                        height: 30,
                       ),
+                     
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               fixedSize: const Size(450, 50),
@@ -209,26 +223,22 @@ class _LoginPageState extends State<LoginPage> {
                               )),
                           onPressed: () {},
                           child: Text(
-                            "Masuk",
+                            "Daftar",
                             style: buttonWhiteStlye,
                             textAlign: TextAlign.center,
                           )),
                       GestureDetector(
-                        onTap: () {
-                          context.read<AuthBloc>().add(Login(
-                                nim: _nimTextController.text,
-                                password: _passwordTextController.text));
-                        },
+                        onTap: () {},
                         child: SizedBox(
                           height: 45,
                           width: 450,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text("Belum punya akun? ",
+                              Text("Sudah punya akun? ",
                                   style: subPageStlye.copyWith(fontSize: 16)),
                               Text(
-                                "Buat Akun",
+                                "Masuk",
                                 style: lilteBluestlye,
                               ),
                             ],
