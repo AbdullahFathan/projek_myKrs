@@ -200,6 +200,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
+
+                      // button login
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               fixedSize: const Size(450, 50),
@@ -207,17 +209,21 @@ class _LoginPageState extends State<LoginPage> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               )),
-                          onPressed: () {},
+                          onPressed: () {
+                            context.read<AuthBloc>().add(Login(
+                                nim: _nimTextController.text,
+                                password: _passwordTextController.text));
+                          },
                           child: Text(
                             "Masuk",
                             style: buttonWhiteStlye,
                             textAlign: TextAlign.center,
                           )),
+
+                          // Kata buat akun
                       GestureDetector(
                         onTap: () {
-                          context.read<AuthBloc>().add(Login(
-                                nim: _nimTextController.text,
-                                password: _passwordTextController.text));
+                          
                         },
                         child: SizedBox(
                           height: 45,

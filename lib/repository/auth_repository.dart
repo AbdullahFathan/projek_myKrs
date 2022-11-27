@@ -8,15 +8,16 @@ var baseUrl = dotenv.get('BASE_URL');
 class AuthRepository {
   var client = http.Client();
   Future loginRepository(String nim, String password) async {
-    var uri = Uri.parse("$baseUrl/api/debug");
+    var uri = Uri.parse("$baseUrl/api/login");
     try {
-      var response = await client.get(
-        uri,
-        headers: {
-          "Authorization": dotenv.get('TOKEN_KEY'),
-          
-        },
-      );
+      var response = await client.post(uri,
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+          },
+          body: json.encode({
+            "nim": nim,
+            "password": password,
+          }));
 
       if (response.statusCode == 200) {
         var data = json.decode(response.body);

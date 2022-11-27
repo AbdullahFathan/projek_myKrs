@@ -72,4 +72,18 @@ TextStyle lilteBluestlye = GoogleFonts.asap(
   color: lightBlueColor,
 );
 
+Widget gradientColor(var lebar)=> Container(
+  height: 10,
+  width: lebar,
+  decoration: const BoxDecoration(
+    gradient: LinearGradient(
+      colors: [
+        lightBlueColor,
+        lightgreyColor,
+        orangeColors
+      ]
+    )
+  ),
+);
+
 
