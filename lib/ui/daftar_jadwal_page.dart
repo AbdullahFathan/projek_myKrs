@@ -5,6 +5,8 @@ import 'package:mykrs_projek/util/color_textstyle.dart';
 import 'package:mykrs_projek/widget/drop_down_jadwal.dart';
 import 'package:mykrs_projek/widget/top_navbar.dart';
 
+import '../widget/botom_widget.dart';
+
 class DaftarJadwalPage extends StatefulWidget {
   const DaftarJadwalPage({super.key});
 
@@ -155,23 +157,27 @@ class _DaftarJadwalPageState extends State<DaftarJadwalPage> {
                               height: 40,
                               child: Row(
                                 children: [
-                                  dataTable(allDataMatkul[index].tahunKurikulm, index),
-                                  dataTable(allDataMatkul[index].hari,index),
-                                  dataTable(allDataMatkul[index].jam,index),
-                                  dataTable(allDataMatkul[index].kodeMK,index),
-                                  dataTable(allDataMatkul[index].namaMK, index,pading: 0),
-                                  dataTable(allDataMatkul[index].kelas,index),
-                                  dataTable(allDataMatkul[index].sks,index),
+                                  dataTable(allDataMatkul[index].tahunKurikulm,
+                                      index),
+                                  dataTable(allDataMatkul[index].hari, index),
+                                  dataTable(allDataMatkul[index].jam, index),
+                                  dataTable(allDataMatkul[index].kodeMK, index),
+                                  dataTable(allDataMatkul[index].namaMK, index,
+                                      pading: 0),
+                                  dataTable(allDataMatkul[index].kelas, index),
+                                  dataTable(allDataMatkul[index].sks, index),
                                   Container(
                                     width: 146,
                                     height: 40,
-                                    color: (index%2 == 0 )? tabelColor2 : whiteColor,
+                                    color: (index % 2 == 0)
+                                        ? tabelColor2
+                                        : whiteColor,
                                     child: Padding(
                                       padding: const EdgeInsets.only(left: 5),
                                       child: Center(
                                         child: Text(
                                           allDataMatkul[index].peminat,
-                                          style:tableTextStyle ,
+                                          style: tableTextStyle,
                                         ),
                                       ),
                                     ),
@@ -184,7 +190,10 @@ class _DaftarJadwalPageState extends State<DaftarJadwalPage> {
                   ],
                 ),
               ),
-            )
+            ),
+            
+            const GradienColor(),
+            const BottomWidget(),
           ],
         ),
       ),
@@ -218,13 +227,13 @@ Widget rowPertama(String kata) => Container(
 
 Widget dataTable(
   String kata,
-  int index,
-  {double pading = 45,}
-) =>
+  int index, {
+  double pading = 45,
+}) =>
     Container(
       width: 170,
       height: 40,
-      color: (index%2 == 0 )? tabelColor2 : whiteColor,
+      color: (index % 2 == 0) ? tabelColor2 : whiteColor,
       padding: EdgeInsets.only(right: pading),
       child: Center(
         child: Text(

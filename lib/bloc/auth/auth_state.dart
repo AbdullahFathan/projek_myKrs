@@ -14,3 +14,10 @@ class AuthEror extends AuthState {
 
   AuthEror(this.text);
 }
+class Authenticated extends AuthState {}
+
+class Unauthenticated extends AuthState {}
+
+class AuthenticatedEror extends AuthState {}
+
+class AuthenticatedLoading extends AuthState {}

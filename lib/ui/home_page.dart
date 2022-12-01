@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mykrs_projek/util/color_textstyle.dart';
+import 'package:mykrs_projek/widget/botom_widget.dart';
 import 'package:mykrs_projek/widget/top_navbar.dart';
 
 
@@ -50,26 +51,10 @@ class _HomepageDesktopState extends State<HomepageDesktop> {
           const SizedBox(
             height: 61,
           ),
-          //GAMBAR LINGKARANG FULL
-          Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 100),
-                child: Image.asset(
-                  "assets/lingkarang.png",
-                  width: 489,
-                  height: 489,
-                ),
-              )),
-          const SizedBox(
-            height: 61,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.2,
-            color: Colors.red,
-          ),
-          contactUsSection(context),
+          const GradienColor(),
+          const BottomWidget(),
+          
+          
         ],
       ),
     ));
@@ -111,28 +96,9 @@ class _HomePageTabletState extends State<HomePageTablet> {
           const SizedBox(
             height: 61,
           ),
-          //GAMBAR LINGKARANG FULL
-          Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 100),
-                child: Image.asset(
-                  "assets/lingkarang.png",
-                  width: 489,
-                  height: 489,
-                ),
-              )),
-          const SizedBox(
-            height: 61,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.2,
-            color: Colors.red,
-          ),
-
-          //BAGIAN KONTAK US
-          contactUsSection(context),
+          const GradienColor(),
+          const BottomWidget(),
+          
           
         ],
       ),
@@ -140,49 +106,7 @@ class _HomePageTabletState extends State<HomePageTablet> {
   }
 }
 
-Widget contactUsSection(BuildContext context) => Container(
-            width: MediaQuery.of(context).size.width,
-            height: 354,
-            color: darkBlueColors,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 58,
-                ),
-                Center(
-                  child: Text(
-                    "Contact Us",
-                    style: whitetitleStyle,
-                  ),
-                ),
-                const SizedBox(
-                  height: 2,
-                ),
-                Container(
-                  height: 119,
-                  width: 203,
-                  margin: const EdgeInsets.only(left: 81),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      color: whiteColor),
-                  child: Center(
-                    child: logoMyKRS()
-                  ),
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 81),
-                  child: Text(
-                    "Developed by BCC Team © 2022",
-                    style: whiteSubtitle,
-                  ),
-                )
-              ],
-            ),
-          );
+
 
 
 

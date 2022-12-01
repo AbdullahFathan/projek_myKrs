@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/data_dummy.dart';
 import '../util/color_textstyle.dart';
+import '../widget/botom_widget.dart';
 import '../widget/drop_down_jadwal.dart';
 import '../widget/top_navbar.dart';
 
@@ -170,6 +171,8 @@ class _RekomenJadwalPageState extends State<RekomenJadwalPage> {
                 ),
               ),
             ),
+            const GradienColor(),
+          const BottomWidget(),
           ],
         ),
       ),

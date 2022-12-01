@@ -72,18 +72,23 @@ TextStyle lilteBluestlye = GoogleFonts.asap(
   color: lightBlueColor,
 );
 
-Widget gradientColor(var lebar)=> Container(
-  height: 10,
-  width: lebar,
-  decoration: const BoxDecoration(
-    gradient: LinearGradient(
-      colors: [
-        lightBlueColor,
-        lightgreyColor,
-        orangeColors
-      ]
-    )
-  ),
+TextStyle routeTextStyle = GoogleFonts.asap(
+  fontSize: 16,
+  fontWeight: FontWeight.w600,
+  color: darkBlueColors,
 );
 
+class GradienColor extends StatelessWidget {
+  const GradienColor({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 10,
+      width: MediaQuery.of(context).size.width,
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(
+              colors: [lightBlueColor, lightgreyColor, orangeColors])),
+    );
+  }
+}

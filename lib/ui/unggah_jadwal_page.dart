@@ -1,9 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:mykrs_projek/models/data_dummy.dart';
-import 'package:mykrs_projek/ui/daftar_jadwal_page.dart';
-import 'package:mykrs_projek/util/color_textstyle.dart';
-import 'package:mykrs_projek/util/utilty.dart';
+import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mykrs_projek/models/data_dummy.dart';
+import 'package:mykrs_projek/util/color_textstyle.dart';
+import 'package:path_provider/path_provider.dart';
+
+
+import '../bloc/jdu/jdu_bloc.dart';
+import '../widget/botom_widget.dart';
+import '../widget/file_upload.dart';
 import '../widget/top_navbar.dart';
 
 class UnggahJadwalPage extends StatefulWidget {
@@ -12,7 +20,7 @@ class UnggahJadwalPage extends StatefulWidget {
   @override
   State<UnggahJadwalPage> createState() => _UnggahJadwalPageState();
 }
-
+late PlatformFile exelJDu;
 class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
   final header = [
     "Tahun Kurikulum",
@@ -25,6 +33,7 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
     "Peminat"
   ];
   final ScrollController controller = ScrollController();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +67,8 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                     ),
                   ),
                 ),
+
+                // BUTTON UPLOAD FILE
                 Positioned(
                     left: 470,
                     top: 175,
@@ -81,12 +92,13 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                             width: 16,
                           ),
                           Text(
-                            "Jadwal.html",
+                            "Jadwal.xlx",
                             style: dropDownTextStyle,
                           )
                         ],
                       ),
                     )),
+                // BUTTON UPLOAD UNGGAH
                 Positioned(
                     left: 800,
                     top: 175,
@@ -98,7 +110,22 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)),
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        final result = await FilePicker.platform.pickFiles(
+                         type: FileType.custom,
+                         allowedExtensions: ["xlsx"]
+                        );
+                        if (result == null) return;
+
+                        final file = result.files.first;
+                        final fileByte = file.bytes;
+                        //exelJDu =  File.fromRawPath(fileByte!);
+                        exelJDu =  file;
+                        
+                       print("name : ${file.name}");
+                       print("type : ${file.extension}");
+                        
+                      },
                       child: Text(
                         "Unggah",
                         style: dropDownTextStyle,
@@ -109,7 +136,7 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                   top: 140,
                   left: 470,
                   child: Text(
-                    "Unggah file jadwal mata kuliah dalam bentuk .html",
+                    "Unggah file jadwal mata kuliah dalam bentuk .xlxs",
                     style: subPageStlye.copyWith(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
@@ -121,7 +148,7 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                     left: 470,
                     top: 260,
                     child: OutlinedButton(
-                      onPressed: () =>_showDialog(context),
+                      onPressed: () => _showDialog(context),
                       style: OutlinedButton.styleFrom(
                           alignment: Alignment.center,
                           fixedSize: const Size(452, 32),
@@ -179,14 +206,36 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                                   _dataTable(allDataMatkul[index].jam, index),
                                   _dataTable(
                                       allDataMatkul[index].kodeMK, index),
-                                  _dataTable(allDataMatkul[index].namaMK, index,
-                                      pading: 0),
+                                  //Nama matkul
+                                  Container(
+                                    width: 170,
+                                    height: 50,
+                                    color: (index % 2 == 0)
+                                        ? tabelColor2
+                                        : whiteColor,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            allDataMatkul[index].namaMK,
+                                            style: tableTextStyle,
+                                          ),
+                                        ),
+                                        IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(
+                                              Icons.create,
+                                              size: 12,
+                                            )),
+                                      ],
+                                    ),
+                                  ),
                                   _dataTable(allDataMatkul[index].kelas, index),
                                   _dataTable(allDataMatkul[index].sks, index,
                                       pading: 25),
                                   Container(
                                     width: 146,
-                                    height: 40,
+                                    height: 50,
                                     color: (index % 2 == 0)
                                         ? tabelColor2
                                         : whiteColor,
@@ -201,10 +250,12 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                                         const SizedBox(
                                           width: 4,
                                         ),
-                                        Icon(
-                                          Icons.create,
-                                          size: 12,
-                                        )
+                                        IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(
+                                              Icons.create,
+                                              size: 12,
+                                            )),
                                       ],
                                     ),
                                   )
@@ -217,6 +268,8 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                 ),
               ),
             ),
+            const GradienColor(),
+            const BottomWidget(),
           ],
         ),
       ),
@@ -239,7 +292,7 @@ Widget _rowPertama(String kata) => Container(
               fontWeight: FontWeight.w700,
             ),
           ),
-          Icon(
+          const Icon(
             Icons.keyboard_arrow_down_sharp,
             size: 12,
             color: whiteColor,
@@ -255,7 +308,7 @@ Widget _dataTable(
 }) =>
     Container(
       width: 170,
-      height: 40,
+      height: 50,
       color: (index % 2 == 0) ? tabelColor2 : whiteColor,
       padding: EdgeInsets.only(right: pading),
       child: Row(
@@ -266,12 +319,14 @@ Widget _dataTable(
             style: tableTextStyle,
           ),
           const SizedBox(
-            width: 4,
+            width: 2,
           ),
-          Icon(
-            Icons.create,
-            size: 12,
-          )
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.create,
+                size: 12,
+              )),
         ],
       ),
     );
@@ -297,7 +352,7 @@ Future _showDialog(BuildContext context) async {
         actions: [
           //TOMBOL BATAL
           OutlinedButton(
-            onPressed: () =>Navigator.pop(context),
+            onPressed: () => Navigator.pop(context),
             style: OutlinedButton.styleFrom(
                 alignment: Alignment.center,
                 fixedSize: const Size(132, 32),
@@ -312,9 +367,13 @@ Future _showDialog(BuildContext context) async {
 
           // TOMBOL KONFIRMASI
           OutlinedButton(
-            onPressed: () =>Navigator.pop(context),
+            onPressed: () {
+              context.read<JduBloc>().add(
+              PostJDU(exelJDu, "DAFFA MANO: JAKLMIASMD", "daff@daffa.com"));
+              Navigator.pop(context);
+            },
             style: OutlinedButton.styleFrom(
-              backgroundColor: darkBlueColors,
+                backgroundColor: darkBlueColors,
                 alignment: Alignment.center,
                 fixedSize: const Size(132, 32),
                 side: const BorderSide(color: darkBlueColors),
@@ -331,3 +390,5 @@ Future _showDialog(BuildContext context) async {
     },
   );
 }
+
+

@@ -13,10 +13,14 @@ class PilihJadwalPage extends StatefulWidget {
 }
 
 class _PilihJadwalPageState extends State<PilihJadwalPage> {
+  ScrollController _controller = ScrollController();
+  ScrollController _controllermain = ScrollController();
   @override
   Widget build(BuildContext context) {
+    var lebar = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SingleChildScrollView(
+        controller: _controllermain,
         child: Column(
           children: [
             Stack(
@@ -111,7 +115,155 @@ class _PilihJadwalPageState extends State<PilihJadwalPage> {
                 ),
               ],
             ),
+            Container(
+                height: 284,
+                width: lebar,
+                padding: const EdgeInsets.only(top: 20, left: 60, right: 60),
+                color: tabelColor2,
+                child: SingleChildScrollView(
+                  controller: _controller,
+                  scrollDirection: Axis.vertical,
+                  child: DataTable(
+                  dividerThickness: 0,
+                    horizontalMargin: 0,
+                    columnSpacing: 0,
+                    columns: [
+                      DataColumn(
+                        label: BoxColumn(
+                          kata: "Tahun Kurikulum",
+                          width: 145,
+                        ),
+                      ),
+                      DataColumn(label: BoxColumn(kata: "hari", width: 145)),
+                      DataColumn(label: BoxColumn(kata: "Jam", width: 145)),
+                      DataColumn(
+                          label: BoxColumn(kata: "Kode MK", width: 145)),
+                      DataColumn(
+                          label: BoxColumn(kata: "Nama MK", width: 206)),
+                      DataColumn(label: BoxColumn(kata: "Kelas", width: 145)),
+                      DataColumn(label: BoxColumn(kata: "SKS", width: 88)),
+                      DataColumn(
+                          label: BoxColumn(kata: "Peminat", width: 120)),
+                      DataColumn(
+                          label: Container(
+                        height: 40,
+                        width: 106,
+                        color: lightBlueColor,
+                        child: Center(
+                          child: Text(
+                            "Pilih Jadwal",
+                            style: whiteSubtitle.copyWith(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      )),
+                    ],
+                    rows: getRow(allDataMatkul),
+                  ),
+                )),
+                const GradienColor(),
+                Container(
+                  width: lebar,
+                  height: 440,
+                  color: darkBlueColors,
+                )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class BoxColumn extends StatelessWidget {
+  String kata;
+  double width;
+
+  BoxColumn({
+    Key? key,
+    required this.kata,
+    required this.width,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: 40,
+        width: width,
+        color: lightBlueColor,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              kata,
+              style: whiteSubtitle.copyWith(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const Icon(
+              Icons.keyboard_arrow_down_sharp,
+              size: 12,
+              color: whiteColor,
+            )
+          ],
+        ));
+  }
+}
+
+getRow(List<DataMatkul> data) => data
+    .asMap()
+    .map((i, DataMatkul item) => MapEntry(
+        i,
+        DataRow(cells: [
+          DataCell(BoxRow(kata: item.tahunKurikulm,index: i,width: 145,)),
+          DataCell(BoxRow(kata: item.hari, index: i, width: 145)),
+          DataCell(BoxRow(kata: item.jam, index: i, width: 145)),
+          DataCell(BoxRow(kata: item.kodeMK, index: i, width: 145)),
+          DataCell(BoxRow(kata: item.namaMK, index: i, width: 206)),
+          DataCell(BoxRow(kata: item.kelas, index: i, width: 145)),
+          DataCell(BoxRow(kata: item.sks, index: i, width: 88)),
+          DataCell(BoxRow(kata: item.peminat, index: i, width: 120)),
+          DataCell(
+            Container(
+                height: 45,
+                width: 106,
+                color: lightBlueColor,
+                child: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.add_box_outlined,
+                    color: whiteColor,
+                  ),
+                )),
+          )
+        ])))
+    .values
+    .toList();
+
+class BoxRow extends StatelessWidget {
+  String kata;
+  int index;
+  double width;
+
+  BoxRow({
+    Key? key,
+    required this.kata,
+    required this.index,
+    required this.width,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40,
+      width: width,
+      color: index % 2 == 0 ? whiteColor : tabelColor2,
+      child: Center(
+        child: Text(
+          kata,
+          style: tableTextStyle,
         ),
       ),
     );
