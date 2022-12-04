@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:mykrs_projek/util/color_textstyle.dart';
 import 'package:mykrs_projek/widget/top_navbar.dart';
 
 class PlanJadwalPage extends StatefulWidget {
-  const PlanJadwalPage({super.key});
+  Widget planWidget;
+  PlanJadwalPage({
+    Key? key,
+    required this.planWidget,
+  }) : super(key: key);
 
   @override
   State<PlanJadwalPage> createState() => _PlanJadwalPageState();
@@ -53,12 +58,12 @@ class _PlanJadwalPageState extends State<PlanJadwalPage> {
           ),
 
           Positioned(
-            top: 87,
-            left: 460,
+              top: 87,
+              left: 460,
               child: Text(
-            "Plan Jadwal Mata Kuliah",
-            style: whitetitleStyle,
-          )),
+                "Plan Jadwal Mata Kuliah",
+                style: whitetitleStyle,
+              )),
           // Text header awal
           Row(
             children: [
@@ -101,13 +106,9 @@ class _PlanJadwalPageState extends State<PlanJadwalPage> {
 
           Positioned(
             top: 177,
-            left: 200,
-            
-              child: Container(
-                height: 350,
-                width: 1024,
-                color: orangeColors,
-              )),
+            left: 30,
+            child: widget.planWidget,
+          ),
         ],
       ),
     );

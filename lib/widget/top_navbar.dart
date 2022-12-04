@@ -10,6 +10,7 @@ import 'package:mykrs_projek/ui/unggah_jadwal_page.dart';
 
 import '../bloc/auth/auth_bloc.dart';
 import '../util/color_textstyle.dart';
+import 'plan_jadwal_widget.dart';
 
 List<String> jadwalRoute = ["Daftar Jadwal", "Tambah Jadwal"];
 
@@ -167,7 +168,7 @@ class _HeaderWebState extends State<HeaderWeb> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => const PlanJadwalPage()));
+                                  builder: (_) =>  PlanJadwalPage(planWidget: PlanJadwalWidget(),)));
                           break;
                         
                         case "Pilih Jadwal":

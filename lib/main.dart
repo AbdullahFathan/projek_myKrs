@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mykrs_projek/bloc/jdu/jdu_bloc.dart';
-import 'package:mykrs_projek/ui/pilih_jadwal_page.dart';
+import 'package:mykrs_projek/ui/unggah_jadwal_page.dart';
 
 
 import 'bloc/auth/auth_bloc.dart';
@@ -26,21 +26,10 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: PilihJadwalPage(),
+        home: UnggahJadwalPage(),
       ),
     );
   }
 }
 
-/*
-final result = await FilePicker.platform.pickFiles(
-                         type: FileType.custom,
-                         allowedExtensions: ["xlsx"]
-                        );
-                        if (result == null) return;
 
-                        final file = result.files.first;
-                        exelJDu = File((file.path.toString()));
-                       print("name : ${file.name}");
-                       print("type : ${file.extension}");
- */

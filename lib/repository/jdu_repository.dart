@@ -1,17 +1,14 @@
-import 'dart:convert';
-import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
-import 'package:mykrs_projek/models/matkul_model.dart';
 import 'package:mykrs_projek/repository/cache_repository.dart';
 
 var baseUrl = dotenv.get('BASE_URL');
 
 class JDU {
-  var client = http.Client();
+ 
 
   Future getToken() async {
     var token = await Cache.getData('user_token');

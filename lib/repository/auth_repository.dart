@@ -1,8 +1,7 @@
-import 'dart:convert';
+
 
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
 import 'package:mykrs_projek/repository/cache_repository.dart';
 
 var baseUrl = dotenv.get('BASE_URL');
@@ -18,13 +17,13 @@ class AuthRepository {
               "Content-Type": "application/json; charset=utf-8",
             },
           ),
-          data: json.encode({
+          data: {
             "nim": nim,
             "password": password,
-          }));
+          });
 
       if (response.statusCode == 200) {
-        var data = json.decode(response.data);
+        var data = response.data;
         await Cache.writeData(
             key: "token", value: data["data"]["Authorization"]);
         print("=============DATA==============");

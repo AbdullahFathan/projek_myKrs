@@ -1,17 +1,12 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mykrs_projek/models/data_dummy.dart';
 import 'package:mykrs_projek/util/color_textstyle.dart';
-import 'package:path_provider/path_provider.dart';
-
 
 import '../bloc/jdu/jdu_bloc.dart';
 import '../widget/botom_widget.dart';
-import '../widget/file_upload.dart';
 import '../widget/top_navbar.dart';
 
 class UnggahJadwalPage extends StatefulWidget {
@@ -20,7 +15,9 @@ class UnggahJadwalPage extends StatefulWidget {
   @override
   State<UnggahJadwalPage> createState() => _UnggahJadwalPageState();
 }
+
 late PlatformFile exelJDu;
+
 class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
   final header = [
     "Tahun Kurikulum",
@@ -33,7 +30,6 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
     "Peminat"
   ];
   final ScrollController controller = ScrollController();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -43,112 +39,99 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
         controller: controller,
         child: Column(
           children: [
-            Stack(
-              children: [
-                HeaderWeb(isAnotherCircle: true),
-                //TITLE WEB
-                Positioned(
-                  top: 60,
-                  left: 420,
-                  child: Text(
-                    "Unggah Jadwal Mata Kuliah",
-                    style: titlePageStlye,
-                  ),
+            Stack(children: [
+              HeaderWeb(isAnotherCircle: true),
+              //TITLE WEB
+              Positioned(
+                top: 60,
+                left: 420,
+                child: Text(
+                  "Unggah Jadwal Mata Kuliah",
+                  style: titlePageStlye,
                 ),
-                // UNGGAH FILE SECTION
-                Positioned(
-                  top: 220,
-                  left: 470,
-                  child: Text(
-                    "Konfirmasi jika Jadwal mata kuliah sudah benar",
-                    style: subPageStlye.copyWith(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
+              ),
 
-                // BUTTON UPLOAD FILE
-                Positioned(
-                    left: 470,
-                    top: 175,
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.only(left: 20),
-                        fixedSize: const Size(300, 32),
-                        side: const BorderSide(color: darkBlueColors),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
+              Positioned(
+                top: 127,
+                left: 470,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Kata unggah file
+                    Text(
+                      "Unggah file jadwal mata kuliah dalam bentuk .xlxs",
+                      style: subPageStlye.copyWith(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
                       ),
-                      onPressed: () {},
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.file_upload_outlined,
-                            size: 22,
-                            color: darkBlueColors,
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Row(
+                      children: [
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.only(left: 20),
+                            fixedSize: const Size(300, 32),
+                            side: const BorderSide(color: darkBlueColors),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8)),
                           ),
-                          const SizedBox(
-                            width: 16,
+                          onPressed: () {},
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.file_upload_outlined,
+                                size: 22,
+                                color: darkBlueColors,
+                              ),
+                              const SizedBox(
+                                width: 16,
+                              ),
+                              Text(
+                                "Jadwal.xlsx",
+                                style: dropDownTextStyle,
+                              )
+                            ],
                           ),
-                          Text(
-                            "Jadwal.xlx",
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            alignment: Alignment.center,
+                            fixedSize: const Size(124, 32),
+                            side: const BorderSide(color: darkBlueColors),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8)),
+                          ),
+                          onPressed: () async => await getFile(),
+                          child: Text(
+                            "Unggah",
                             style: dropDownTextStyle,
-                          )
-                        ],
-                      ),
-                    )),
-                // BUTTON UPLOAD UNGGAH
-                Positioned(
-                    left: 800,
-                    top: 175,
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        alignment: Alignment.center,
-                        fixedSize: const Size(124, 32),
-                        side: const BorderSide(color: darkBlueColors),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                      ),
-                      onPressed: () async {
-                        final result = await FilePicker.platform.pickFiles(
-                         type: FileType.custom,
-                         allowedExtensions: ["xlsx"]
-                        );
-                        if (result == null) return;
-
-                        final file = result.files.first;
-                        final fileByte = file.bytes;
-                        //exelJDu =  File.fromRawPath(fileByte!);
-                        exelJDu =  file;
-                        
-                       print("name : ${file.name}");
-                       print("type : ${file.extension}");
-                        
-                      },
-                      child: Text(
-                        "Unggah",
-                        style: dropDownTextStyle,
-                      ),
-                    )),
-                //TULISAN KONFIRMASI
-                Positioned(
-                  top: 140,
-                  left: 470,
-                  child: Text(
-                    "Unggah file jadwal mata kuliah dalam bentuk .xlxs",
-                    style: subPageStlye.copyWith(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-                //TOMBOL KONFIRMASI
-                Positioned(
-                    left: 470,
-                    top: 260,
-                    child: OutlinedButton(
-                      onPressed: () => _showDialog(context),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    //KATA konfirmasi
+                    Text(
+                      "Konfirmasi jika Jadwal mata kuliah sudah benar",
+                      style: subPageStlye.copyWith(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    // Button konfirmasi
+                    OutlinedButton(
+                      onPressed: () async => await _showDialog(context),
                       style: OutlinedButton.styleFrom(
                           alignment: Alignment.center,
                           fixedSize: const Size(452, 32),
@@ -159,11 +142,13 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                         "Konfirmasi",
                         style: dropDownTextStyle,
                       ),
-                    )),
-              ],
-            ),
+                    )
+                  ],
+                ),
+              ),
+            ]),
             Container(
-              width: MediaQuery.of(context).size.width,
+              width: lebar,
               padding: const EdgeInsets.only(left: 15, right: 15, top: 35),
               height: 700,
               color: darkBlueColors,
@@ -174,18 +159,18 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                         margin: const EdgeInsets.only(top: 30),
                         width: lebar,
                         height: 45,
-                        // HEADER COLUMN 1 TABEL
+                        //HEADER COLUMN 1 TABEL
                         child: ListView(
                           scrollDirection: Axis.horizontal,
                           children: [
-                            _rowPertama("Tahun Kurikulum"),
-                            _rowPertama("Hari"),
-                            _rowPertama("Jam"),
-                            _rowPertama("Kode MK"),
-                            _rowPertama("Nama MK"),
-                            _rowPertama("Kelas"),
-                            _rowPertama("SKS"),
-                            _rowPertama("Peminat"),
+                            rowPertama("Tahun Kurikulum"),
+                            rowPertama("Hari"),
+                            rowPertama("Jam"),
+                            rowPertama("Kode MK"),
+                            rowPertama("Nama MK"),
+                            rowPertama("Kelas"),
+                            rowPertama("SKS"),
+                            rowPertama("Peminat"),
                           ],
                         )),
                     Container(
@@ -195,17 +180,16 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                         child: ListView.builder(
                           itemCount: allDataMatkul.length,
                           itemBuilder: (context, index) {
-                            return Container(
+                            return SizedBox(
                               width: lebar,
                               height: 40,
                               child: Row(
                                 children: [
-                                  _dataTable(allDataMatkul[index].tahunKurikulm,
+                                  dataTable(allDataMatkul[index].tahunKurikulm,
                                       index),
-                                  _dataTable(allDataMatkul[index].hari, index),
-                                  _dataTable(allDataMatkul[index].jam, index),
-                                  _dataTable(
-                                      allDataMatkul[index].kodeMK, index),
+                                  dataTable(allDataMatkul[index].hari, index),
+                                  dataTable(allDataMatkul[index].jam, index),
+                                  dataTable(allDataMatkul[index].kodeMK, index),
                                   //Nama matkul
                                   Container(
                                     width: 170,
@@ -230,8 +214,8 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                                       ],
                                     ),
                                   ),
-                                  _dataTable(allDataMatkul[index].kelas, index),
-                                  _dataTable(allDataMatkul[index].sks, index,
+                                  dataTable(allDataMatkul[index].kelas, index),
+                                  dataTable(allDataMatkul[index].sks, index,
                                       pading: 25),
                                   Container(
                                     width: 146,
@@ -268,6 +252,7 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                 ),
               ),
             ),
+            
             const GradienColor(),
             const BottomWidget(),
           ],
@@ -278,7 +263,7 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
 }
 
 // HEADER ROW KE 1 PADA TABEL MK
-Widget _rowPertama(String kata) => Container(
+Widget rowPertama(String kata) => Container(
       width: 170,
       height: 40,
       color: lightBlueColor,
@@ -301,7 +286,7 @@ Widget _rowPertama(String kata) => Container(
       ),
     );
 
-Widget _dataTable(
+Widget dataTable(
   String kata,
   int index, {
   double pading = 45,
@@ -369,7 +354,7 @@ Future _showDialog(BuildContext context) async {
           OutlinedButton(
             onPressed: () {
               context.read<JduBloc>().add(
-              PostJDU(exelJDu, "DAFFA MANO: JAKLMIASMD", "daff@daffa.com"));
+                  PostJDU(exelJDu, "DAFFA MANO: JAKLMIASMD", "daff@daffa.com"));
               Navigator.pop(context);
             },
             style: OutlinedButton.styleFrom(
@@ -391,4 +376,22 @@ Future _showDialog(BuildContext context) async {
   );
 }
 
+// fungsi untuk upload file
+Future getFile() async{
+  final result = await FilePicker.platform.pickFiles(
+                                type: FileType.custom,
+                                allowedExtensions: ["xlsx"]);
+                            if (result == null) return;
 
+                            final file = result.files.first;
+                           
+                            //exelJDu =  File.fromRawPath(fileByte!);
+                            exelJDu = file;
+
+                            print("name : ${file.name}");
+                            print("type : ${file.extension}");
+}
+
+
+
+ 

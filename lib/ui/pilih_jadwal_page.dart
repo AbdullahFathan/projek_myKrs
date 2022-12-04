@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mykrs_projek/ui/plan_jadwal_page.dart';
+
 
 import '../models/data_dummy.dart';
 import '../util/color_textstyle.dart';
 import '../widget/drop_down_jadwal.dart';
+import '../widget/plan_jadwal_widget.dart';
 import '../widget/top_navbar.dart';
 
 class PilihJadwalPage extends StatefulWidget {
@@ -13,8 +16,8 @@ class PilihJadwalPage extends StatefulWidget {
 }
 
 class _PilihJadwalPageState extends State<PilihJadwalPage> {
-  ScrollController _controller = ScrollController();
-  ScrollController _controllermain = ScrollController();
+  final ScrollController _controller = ScrollController();
+  final ScrollController _controllermain = ScrollController();
   @override
   Widget build(BuildContext context) {
     var lebar = MediaQuery.of(context).size.width;
@@ -43,7 +46,7 @@ class _PilihJadwalPageState extends State<PilihJadwalPage> {
                     data: fakultas,
                     kata: "Fakultas",
                     lebar: 200,
-                    jarak: SizedBox(
+                    jarak: const SizedBox(
                       width: 65,
                     ),
                   ),
@@ -56,7 +59,7 @@ class _PilihJadwalPageState extends State<PilihJadwalPage> {
                     data: semester,
                     kata: "Semester",
                     lebar: 150,
-                    jarak: SizedBox(
+                    jarak: const SizedBox(
                       width: 55,
                     ),
                   ),
@@ -69,7 +72,7 @@ class _PilihJadwalPageState extends State<PilihJadwalPage> {
                     data: kodeMatkul,
                     kata: "Kode Matkul",
                     lebar: 150,
-                    jarak: SizedBox(
+                    jarak: const SizedBox(
                       width: 20,
                     ),
                   ),
@@ -82,7 +85,7 @@ class _PilihJadwalPageState extends State<PilihJadwalPage> {
                     data: programStudi,
                     kata: "Program Studi",
                     lebar: 350,
-                    jarak: SizedBox(
+                    jarak: const SizedBox(
                       width: 70,
                     ),
                   ),
@@ -95,7 +98,7 @@ class _PilihJadwalPageState extends State<PilihJadwalPage> {
                     data: tahunKurikulm,
                     kata: "Tahun Kurikulum",
                     lebar: 150,
-                    jarak: SizedBox(
+                    jarak: const SizedBox(
                       width: 40,
                     ),
                   ),
@@ -108,7 +111,7 @@ class _PilihJadwalPageState extends State<PilihJadwalPage> {
                     data: namaMatkul,
                     kata: "Nama Matkul",
                     lebar: 350,
-                    jarak: SizedBox(
+                    jarak: const SizedBox(
                       width: 75,
                     ),
                   ),
@@ -124,26 +127,20 @@ class _PilihJadwalPageState extends State<PilihJadwalPage> {
                   controller: _controller,
                   scrollDirection: Axis.vertical,
                   child: DataTable(
-                  dividerThickness: 0,
+                    dividerThickness: 0,
                     horizontalMargin: 0,
                     columnSpacing: 0,
                     columns: [
                       DataColumn(
-                        label: BoxColumn(
-                          kata: "Tahun Kurikulum",
-                          width: 145,
-                        ),
-                      ),
+                          label:
+                              BoxColumn(kata: "Tahun Kurikulum", width: 145)),
                       DataColumn(label: BoxColumn(kata: "hari", width: 145)),
                       DataColumn(label: BoxColumn(kata: "Jam", width: 145)),
-                      DataColumn(
-                          label: BoxColumn(kata: "Kode MK", width: 145)),
-                      DataColumn(
-                          label: BoxColumn(kata: "Nama MK", width: 206)),
+                      DataColumn(label: BoxColumn(kata: "Kode MK", width: 145)),
+                      DataColumn(label: BoxColumn(kata: "Nama MK", width: 206)),
                       DataColumn(label: BoxColumn(kata: "Kelas", width: 145)),
                       DataColumn(label: BoxColumn(kata: "SKS", width: 88)),
-                      DataColumn(
-                          label: BoxColumn(kata: "Peminat", width: 120)),
+                      DataColumn(label: BoxColumn(kata: "Peminat", width: 120)),
                       DataColumn(
                           label: Container(
                         height: 40,
@@ -163,12 +160,47 @@ class _PilihJadwalPageState extends State<PilihJadwalPage> {
                     rows: getRow(allDataMatkul),
                   ),
                 )),
-                const GradienColor(),
-                Container(
-                  width: lebar,
-                  height: 440,
-                  color: darkBlueColors,
-                )
+            const GradienColor(),
+            Container(
+              width: lebar,
+              height: 620,
+              color: darkBlueColors,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Plan Jadwal Mata Kuliah",
+                        style: whitetitleStyle,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      IconButton(
+                          onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => PlanJadwalPage(
+                                        planWidget: PlanJadwalWidget(),
+                                      ))),
+                          icon: const Icon(
+                            Icons.arrow_forward_ios,
+                            color: whiteColor,
+                          ))
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 35),
+                    child: PlanJadwalWidget(),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -217,7 +249,11 @@ getRow(List<DataMatkul> data) => data
     .map((i, DataMatkul item) => MapEntry(
         i,
         DataRow(cells: [
-          DataCell(BoxRow(kata: item.tahunKurikulm,index: i,width: 145,)),
+          DataCell(BoxRow(
+            kata: item.tahunKurikulm,
+            index: i,
+            width: 145,
+          )),
           DataCell(BoxRow(kata: item.hari, index: i, width: 145)),
           DataCell(BoxRow(kata: item.jam, index: i, width: 145)),
           DataCell(BoxRow(kata: item.kodeMK, index: i, width: 145)),

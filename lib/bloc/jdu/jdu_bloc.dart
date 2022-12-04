@@ -1,5 +1,5 @@
 
-import 'dart:io';
+
 
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
@@ -20,7 +20,7 @@ class JduBloc extends Bloc<JduEvent, JduState> {
       response ? emit(JduSuccess()) : emit(JduEror("Tidak berhasil Upload file"));
       } catch(eror){
         emit(JduEror(eror.toString()));
-        print("POST JDU fail [jdu_bloc.dart]");
+        print("POST JDU fail [jdu_bloc.dart] = ${eror.toString()}");
       }
     });
   }
