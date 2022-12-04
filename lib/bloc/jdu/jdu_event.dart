@@ -4,9 +4,9 @@ part of 'jdu_bloc.dart';
 abstract class JduEvent {}
 
 class PostJDU extends JduEvent{
-  PlatformFile exel;
-  String  name;
-  String email;
+  final PlatformFile exel;
+  final String  name;
+  final String email;
 
   PostJDU(this.exel, this.name, this.email);
 }

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +41,7 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
       body: SingleChildScrollView(
         controller: controller,
         child: SizedBox(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height * 2,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -363,7 +366,7 @@ Future _showDialog(BuildContext context) async {
           OutlinedButton(
             onPressed: () {
               context.read<JduBloc>().add(
-                  PostJDU(exelJDu, "DAFFA MANO: JAKLMIASMD", "daff@daffa.com"));
+                 PostJDU(exelJDu, "DAFFA MANO: JAKLMIASMD", "daff@daffa.com"));
               Navigator.pop(context);
             },
             style: OutlinedButton.styleFrom(
@@ -394,7 +397,13 @@ Future getFile() async {
   final file = result.files.first;
   print("name : ${file.name}");
   print("type : ${file.extension}");
+  // final fileByte = file.bytes;
+  
+  // Iterable<int> myfile = fileByte as Iterable<int>;
 
-  //exelJDu =  File.fromRawPath(fileByte!);
+  // print("coba string byte : ${String.fromCharCodes(myfile)}");
+  
+
+  //File fileExel =  File.fromRawPath(file.bytes!);
   return file;
 }
