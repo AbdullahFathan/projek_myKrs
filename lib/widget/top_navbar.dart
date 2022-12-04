@@ -28,183 +28,186 @@ class _HeaderWebState extends State<HeaderWeb> {
   @override
   Widget build(BuildContext context) {
   
-    return Stack(
-      children: [
-        //Gambar lingkarang kiri
-        widget.isAnotherCircle
-            ? Image.asset(
-                "assets/lingkarang4.png",
-                width: 470,
-                height: 340,
-                alignment: Alignment.topLeft,
-              )
-            : Image.asset(
-                "assets/lingkarang2.png",
-                width: 638,
-                height: 638,
-                alignment: Alignment.topLeft,
-              ),
-        // Gambar lingkarang kanan di tombol masuk
-        Positioned(
-          right: -25,
-          child: Image.asset(
-            "assets/lingkarang3.png",
-            width: 398,
-            height: 398,
-            alignment: Alignment.topRight,
+    return SizedBox(
+      height: MediaQuery.of(context).size.height*0.52,
+      child: Stack(
+        children: [
+          //Gambar lingkarang kiri
+          widget.isAnotherCircle
+              ? Image.asset(
+                  "assets/lingkarang4.png",
+                  width: 470,
+                  height: 340,
+                  alignment: Alignment.topLeft,
+                )
+              : Image.asset(
+                  "assets/lingkarang2.png",
+                  width: 638,
+                  height: 638,
+                  alignment: Alignment.topLeft,
+                ),
+          // Gambar lingkarang kanan di tombol masuk
+          Positioned(
+            right: -25,
+            child: Image.asset(
+              "assets/lingkarang3.png",
+              width: 398,
+              height: 398,
+              alignment: Alignment.topRight,
+            ),
           ),
-        ),
-        // Text header awal
-        Row(
-          children: [
-            const SizedBox(
-              width: 30,
-            ),
-            RichText(
-                text: TextSpan(
-                    text: "My",
-                    style: logoStyle.copyWith(color: orangeColors),
-                    children: [
-                  TextSpan(
-                      text: "KRS",
-                      style: logoStyle.copyWith(
-                        color: darkBlueColors,
-                      ))
-                ])),
-            const SizedBox(
-              width: 50,
-            ),
-            SizedBox(
-                height: 34,
-                width: 140,
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton2(
-                    icon: const Visibility(
-                      visible: false,
-                      child: Icon(Icons.arrow_downward),
-                    ),
-                    hint: SizedBox(
-                      child: Row(
-                        children: [
-                          Text(
-                            "Jadwal",
-                            style: appBarStyle,
-                          ),
-                          const Icon(
-                            Icons.keyboard_arrow_down_sharp,
-                            size: 15,
-                          )
-                        ],
+          // Text header awal
+          Row(
+            children: [
+              const SizedBox(
+                width: 30,
+              ),
+              RichText(
+                  text: TextSpan(
+                      text: "My",
+                      style: logoStyle.copyWith(color: orangeColors),
+                      children: [
+                    TextSpan(
+                        text: "KRS",
+                        style: logoStyle.copyWith(
+                          color: darkBlueColors,
+                        ))
+                  ])),
+              const SizedBox(
+                width: 50,
+              ),
+              SizedBox(
+                  height: 34,
+                  width: 140,
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton2(
+                      icon: const Visibility(
+                        visible: false,
+                        child: Icon(Icons.arrow_downward),
                       ),
-                    ),
-                    items: jadwalRoute
-                        .map((item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: routeTextStyle,
-                              ),
-                            ))
-                        .toList(),
-                    onChanged: (value) {
-                      switch (value) {
-                        case "Daftar Jadwal":
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) =>  DaftarJadwalPage()));
-                          break;
-                        case "Tambah Jadwal":
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const UnggahJadwalPage()));
-                          break;
-                      }
-                    },
-                    itemHeight: 40,
-                    dropdownWidth: 150,
-                  ),
-                )),
-            const SizedBox(
-              width: 50,
-            ),
-            SizedBox(
-                height: 34,
-                width: 140,
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton2(
-                    icon: const Visibility(
-                      visible: false,
-                      child: Icon(Icons.arrow_downward),
-                    ),
-                    hint: SizedBox(
-                      child: Row(
-                        children: [
-                          Text(
-                            "Plan",
-                            style: appBarStyle,
-                          ),
-                          const Icon(
-                            Icons.keyboard_arrow_down_sharp,
-                            size: 15,
-                          )
-                        ],
+                      hint: SizedBox(
+                        child: Row(
+                          children: [
+                            Text(
+                              "Jadwal",
+                              style: appBarStyle,
+                            ),
+                            const Icon(
+                              Icons.keyboard_arrow_down_sharp,
+                              size: 15,
+                            )
+                          ],
+                        ),
                       ),
+                      items: jadwalRoute
+                          .map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: routeTextStyle,
+                                ),
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        switch (value) {
+                          case "Daftar Jadwal":
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) =>  DaftarJadwalPage()));
+                            break;
+                          case "Tambah Jadwal":
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const UnggahJadwalPage()));
+                            break;
+                        }
+                      },
+                      itemHeight: 40,
+                      dropdownWidth: 150,
                     ),
-                    items: planRoute
-                        .map((item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: routeTextStyle,
-                              ),
-                            ))
-                        .toList(),
-                    onChanged: (value) {
-                      switch (value) {
-                        case "Plan Jadwal":
-                        
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) =>  PlanJadwalPage(planWidget: PlanJadwalWidget(),)));
-                          break;
-                        
-                        case "Pilih Jadwal":
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const PilihJadwalPage()));
-                          break;
-                        case "Rekomendasi":
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const RekomenJadwalPage()));
-                          break;
-                      }
-                    },
-                    itemHeight: 40,
-                    dropdownWidth: 150,
-                  ),
-                )),
-           
-            const SizedBox(
-              width: 50,
-            ),
-            Text("Bantuan", style: appBarStyle),
-            const SizedBox(
-              width: 50,
-            ),
-          ],
-        ),
-        //Tombol masuk biru
-        Align(
-          alignment: Alignment.topRight,
-          child: LoginButton(),
-        ),
-      ],
+                  )),
+              const SizedBox(
+                width: 50,
+              ),
+              SizedBox(
+                  height: 34,
+                  width: 140,
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton2(
+                      icon: const Visibility(
+                        visible: false,
+                        child: Icon(Icons.arrow_downward),
+                      ),
+                      hint: SizedBox(
+                        child: Row(
+                          children: [
+                            Text(
+                              "Plan",
+                              style: appBarStyle,
+                            ),
+                            const Icon(
+                              Icons.keyboard_arrow_down_sharp,
+                              size: 15,
+                            )
+                          ],
+                        ),
+                      ),
+                      items: planRoute
+                          .map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: routeTextStyle,
+                                ),
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        switch (value) {
+                          case "Plan Jadwal":
+                          
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) =>  PlanJadwalPage(planWidget: PlanJadwalWidget(),)));
+                            break;
+                          
+                          case "Pilih Jadwal":
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const PilihJadwalPage()));
+                            break;
+                          case "Rekomendasi":
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const RekomenJadwalPage()));
+                            break;
+                        }
+                      },
+                      itemHeight: 40,
+                      dropdownWidth: 150,
+                    ),
+                  )),
+             
+              const SizedBox(
+                width: 50,
+              ),
+              Text("Bantuan", style: appBarStyle),
+              const SizedBox(
+                width: 50,
+              ),
+            ],
+          ),
+          //Tombol masuk biru
+          Align(
+            alignment: Alignment.topRight,
+            child: LoginButton(),
+          ),
+        ],
+      ),
     );
   }
 }
