@@ -39,114 +39,118 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
         controller: controller,
         child: Column(
           children: [
-            Stack(children: [
-              HeaderWeb(isAnotherCircle: true),
-              //TITLE WEB
-              Positioned(
-                top: 60,
-                left: 420,
-                child: Text(
-                  "Unggah Jadwal Mata Kuliah",
-                  style: titlePageStlye,
+            SizedBox(
+              width: lebar,
+              height: MediaQuery.of(context).size.height*0.52,
+              child: Stack(children: [
+                HeaderWeb(isAnotherCircle: true),
+                //TITLE WEB
+                Positioned(
+                  top: 60,
+                  left: 420,
+                  child: Text(
+                    "Unggah Jadwal Mata Kuliah",
+                    style: titlePageStlye,
+                  ),
                 ),
-              ),
 
-              Positioned(
-                top: 127,
-                left: 470,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Kata unggah file
-                    Text(
-                      "Unggah file jadwal mata kuliah dalam bentuk .xlxs",
-                      style: subPageStlye.copyWith(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                Positioned(
+                  top: 127,
+                  left: 470,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Kata unggah file
+                      Text(
+                        "Unggah file jadwal mata kuliah dalam bentuk .xlxs",
+                        style: subPageStlye.copyWith(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Row(
-                      children: [
-                        OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.only(left: 20),
-                            fixedSize: const Size(300, 32),
-                            side: const BorderSide(color: darkBlueColors),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Row(
+                        children: [
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.only(left: 20),
+                              fixedSize: const Size(300, 32),
+                              side: const BorderSide(color: darkBlueColors),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)),
+                            ),
+                            onPressed: () {},
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.file_upload_outlined,
+                                  size: 22,
+                                  color: darkBlueColors,
+                                ),
+                                const SizedBox(
+                                  width: 16,
+                                ),
+                                Text(
+                                  "Jadwal.xlsx",
+                                  style: dropDownTextStyle,
+                                )
+                              ],
+                            ),
                           ),
-                          onPressed: () {},
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.file_upload_outlined,
-                                size: 22,
-                                color: darkBlueColors,
-                              ),
-                              const SizedBox(
-                                width: 16,
-                              ),
-                              Text(
-                                "Jadwal.xlsx",
-                                style: dropDownTextStyle,
-                              )
-                            ],
+                          const SizedBox(
+                            width: 20,
                           ),
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              alignment: Alignment.center,
+                              fixedSize: const Size(124, 32),
+                              side: const BorderSide(color: darkBlueColors),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)),
+                            ),
+                            onPressed: () async => await getFile(),
+                            child: Text(
+                              "Unggah",
+                              style: dropDownTextStyle,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      //KATA konfirmasi
+                      Text(
+                        "Konfirmasi jika Jadwal mata kuliah sudah benar",
+                        style: subPageStlye.copyWith(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
                         ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        OutlinedButton(
-                          style: OutlinedButton.styleFrom(
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      // Button konfirmasi
+                      OutlinedButton(
+                        onPressed: () async => await _showDialog(context),
+                        style: OutlinedButton.styleFrom(
                             alignment: Alignment.center,
-                            fixedSize: const Size(124, 32),
+                            fixedSize: const Size(452, 32),
                             side: const BorderSide(color: darkBlueColors),
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                          ),
-                          onPressed: () async => await getFile(),
-                          child: Text(
-                            "Unggah",
-                            style: dropDownTextStyle,
-                          ),
+                                borderRadius: BorderRadius.circular(8))),
+                        child: Text(
+                          "Konfirmasi",
+                          style: dropDownTextStyle,
                         ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    //KATA konfirmasi
-                    Text(
-                      "Konfirmasi jika Jadwal mata kuliah sudah benar",
-                      style: subPageStlye.copyWith(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    // Button konfirmasi
-                    OutlinedButton(
-                      onPressed: () async => await _showDialog(context),
-                      style: OutlinedButton.styleFrom(
-                          alignment: Alignment.center,
-                          fixedSize: const Size(452, 32),
-                          side: const BorderSide(color: darkBlueColors),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8))),
-                      child: Text(
-                        "Konfirmasi",
-                        style: dropDownTextStyle,
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ]),
+              ]),
+            ),
             Container(
               width: lebar,
               padding: const EdgeInsets.only(left: 15, right: 15, top: 35),
