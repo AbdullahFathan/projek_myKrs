@@ -46,7 +46,7 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height*0.52,
+                height: MediaQuery.of(context).size.height * 0.52,
                 child: Stack(children: [
                   HeaderWeb(isAnotherCircle: true),
                   //TITLE WEB
@@ -118,6 +118,7 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                               onPressed: () async {
                                 var fileUser = await getFile();
                                 exelJDu = fileUser;
+                                print("exeljdu memiliki data");
                               },
                               child: Text(
                                 "Unggah",
@@ -197,11 +198,13 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                                 height: 40,
                                 child: Row(
                                   children: [
-                                    dataTable(allDataMatkul[index].tahunKurikulm,
+                                    dataTable(
+                                        allDataMatkul[index].tahunKurikulm,
                                         index),
                                     dataTable(allDataMatkul[index].hari, index),
                                     dataTable(allDataMatkul[index].jam, index),
-                                    dataTable(allDataMatkul[index].kodeMK, index),
+                                    dataTable(
+                                        allDataMatkul[index].kodeMK, index),
                                     //Nama matkul
                                     Container(
                                       width: 170,
@@ -226,7 +229,8 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                                         ],
                                       ),
                                     ),
-                                    dataTable(allDataMatkul[index].kelas, index),
+                                    dataTable(
+                                        allDataMatkul[index].kelas, index),
                                     dataTable(allDataMatkul[index].sks, index,
                                         pading: 25),
                                     Container(
@@ -366,8 +370,9 @@ Future _showDialog(BuildContext context) async {
           OutlinedButton(
             onPressed: () {
               context.read<JduBloc>().add(
-                 PostJDU(exelJDu, "DAFFA MANO: JAKLMIASMD", "daff@daffa.com"));
-              Navigator.pop(context);
+                  PostJDU(exelJDu, "DAFFA MANO: JAKLMIASMD", "daff@daffa.com"));
+                  print("menuju ke jdu bloc");
+              //Navigator.pop(context);
             },
             style: OutlinedButton.styleFrom(
                 backgroundColor: darkBlueColors,
@@ -390,20 +395,24 @@ Future _showDialog(BuildContext context) async {
 
 // fungsi untuk upload file
 Future getFile() async {
-  final result = await FilePicker.platform
-      .pickFiles(type: FileType.custom, allowedExtensions: ["xlsx"]);
+ 
+  final result = await FilePicker.platform.pickFiles(
+    type: FileType.custom,
+    allowedExtensions: ["xlsx"],
+  );
+  print("file berhasil didapatkan");
   if (result == null) return;
 
   final file = result.files.first;
   print("name : ${file.name}");
   print("type : ${file.extension}");
   // final fileByte = file.bytes;
-  
+
   // Iterable<int> myfile = fileByte as Iterable<int>;
 
   // print("coba string byte : ${String.fromCharCodes(myfile)}");
-  
 
   //File fileExel =  File.fromRawPath(file.bytes!);
+  print("file akan di return");
   return file;
 }
