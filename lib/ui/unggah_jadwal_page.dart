@@ -37,12 +37,12 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
     return Scaffold(
       body: SingleChildScrollView(
         controller: controller,
-        child: Column(
-          children: [
-            SizedBox(
-              width: lebar,
-              height: MediaQuery.of(context).size.height*0.52,
-              child: Stack(children: [
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Stack(children: [
                 HeaderWeb(isAnotherCircle: true),
                 //TITLE WEB
                 Positioned(
@@ -110,7 +110,10 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8)),
                             ),
-                            onPressed: () async => await getFile(),
+                            onPressed: () async {
+                              var fileUser = await getFile();
+                              exelJDu = fileUser;
+                            },
                             child: Text(
                               "Unggah",
                               style: dropDownTextStyle,
@@ -150,116 +153,115 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                   ),
                 ),
               ]),
-            ),
-            Container(
-              width: lebar,
-              padding: const EdgeInsets.only(left: 15, right: 15, top: 35),
-              height: 700,
-              color: darkBlueColors,
-              child: Center(
-                child: Column(
-                  children: [
-                    Container(
-                        margin: const EdgeInsets.only(top: 30),
-                        width: lebar,
-                        height: 45,
-                        //HEADER COLUMN 1 TABEL
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            rowPertama("Tahun Kurikulum"),
-                            rowPertama("Hari"),
-                            rowPertama("Jam"),
-                            rowPertama("Kode MK"),
-                            rowPertama("Nama MK"),
-                            rowPertama("Kelas"),
-                            rowPertama("SKS"),
-                            rowPertama("Peminat"),
-                          ],
-                        )),
-                    Container(
-                        width: lebar,
-                        height: 550,
-                        color: whiteColor,
-                        child: ListView.builder(
-                          itemCount: allDataMatkul.length,
-                          itemBuilder: (context, index) {
-                            return SizedBox(
-                              width: lebar,
-                              height: 40,
-                              child: Row(
-                                children: [
-                                  dataTable(allDataMatkul[index].tahunKurikulm,
-                                      index),
-                                  dataTable(allDataMatkul[index].hari, index),
-                                  dataTable(allDataMatkul[index].jam, index),
-                                  dataTable(allDataMatkul[index].kodeMK, index),
-                                  //Nama matkul
-                                  Container(
-                                    width: 170,
-                                    height: 50,
-                                    color: (index % 2 == 0)
-                                        ? tabelColor2
-                                        : whiteColor,
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            allDataMatkul[index].namaMK,
+              Container(
+                width: lebar,
+                padding: const EdgeInsets.only(left: 15, right: 15, top: 35),
+                height: 700,
+                color: darkBlueColors,
+                child: Center(
+                  child: Column(
+                    children: [
+                      Container(
+                          margin: const EdgeInsets.only(top: 30),
+                          width: lebar,
+                          height: 45,
+                          //HEADER COLUMN 1 TABEL
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              rowPertama("Tahun Kurikulum"),
+                              rowPertama("Hari"),
+                              rowPertama("Jam"),
+                              rowPertama("Kode MK"),
+                              rowPertama("Nama MK"),
+                              rowPertama("Kelas"),
+                              rowPertama("SKS"),
+                              rowPertama("Peminat"),
+                            ],
+                          )),
+                      Container(
+                          width: lebar,
+                          height: 550,
+                          color: whiteColor,
+                          child: ListView.builder(
+                            itemCount: allDataMatkul.length,
+                            itemBuilder: (context, index) {
+                              return SizedBox(
+                                width: lebar,
+                                height: 40,
+                                child: Row(
+                                  children: [
+                                    dataTable(allDataMatkul[index].tahunKurikulm,
+                                        index),
+                                    dataTable(allDataMatkul[index].hari, index),
+                                    dataTable(allDataMatkul[index].jam, index),
+                                    dataTable(allDataMatkul[index].kodeMK, index),
+                                    //Nama matkul
+                                    Container(
+                                      width: 170,
+                                      height: 50,
+                                      color: (index % 2 == 0)
+                                          ? tabelColor2
+                                          : whiteColor,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              allDataMatkul[index].namaMK,
+                                              style: tableTextStyle,
+                                            ),
+                                          ),
+                                          IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(
+                                                Icons.create,
+                                                size: 12,
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    dataTable(allDataMatkul[index].kelas, index),
+                                    dataTable(allDataMatkul[index].sks, index,
+                                        pading: 25),
+                                    Container(
+                                      width: 146,
+                                      height: 50,
+                                      color: (index % 2 == 0)
+                                          ? tabelColor2
+                                          : whiteColor,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            allDataMatkul[index].peminat,
                                             style: tableTextStyle,
                                           ),
-                                        ),
-                                        IconButton(
-                                            onPressed: () {},
-                                            icon: const Icon(
-                                              Icons.create,
-                                              size: 12,
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                  dataTable(allDataMatkul[index].kelas, index),
-                                  dataTable(allDataMatkul[index].sks, index,
-                                      pading: 25),
-                                  Container(
-                                    width: 146,
-                                    height: 50,
-                                    color: (index % 2 == 0)
-                                        ? tabelColor2
-                                        : whiteColor,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          allDataMatkul[index].peminat,
-                                          style: tableTextStyle,
-                                        ),
-                                        const SizedBox(
-                                          width: 4,
-                                        ),
-                                        IconButton(
-                                            onPressed: () {},
-                                            icon: const Icon(
-                                              Icons.create,
-                                              size: 12,
-                                            )),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                        ))
-                  ],
+                                          const SizedBox(
+                                            width: 4,
+                                          ),
+                                          IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(
+                                                Icons.create,
+                                                size: 12,
+                                              )),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          ))
+                    ],
+                  ),
                 ),
               ),
-            ),
-            
-            const GradienColor(),
-            const BottomWidget(),
-          ],
+              const GradienColor(),
+              const BottomWidget(),
+            ],
+          ),
         ),
       ),
     );
@@ -381,21 +383,15 @@ Future _showDialog(BuildContext context) async {
 }
 
 // fungsi untuk upload file
-Future getFile() async{
-  final result = await FilePicker.platform.pickFiles(
-                                type: FileType.custom,
-                                allowedExtensions: ["xlsx"]);
-                            if (result == null) return;
+Future getFile() async {
+  final result = await FilePicker.platform
+      .pickFiles(type: FileType.custom, allowedExtensions: ["xlsx"]);
+  if (result == null) return;
 
-                            final file = result.files.first;
-                           
-                            //exelJDu =  File.fromRawPath(fileByte!);
-                            exelJDu = file;
+  final file = result.files.first;
+  print("name : ${file.name}");
+  print("type : ${file.extension}");
 
-                            print("name : ${file.name}");
-                            print("type : ${file.extension}");
+  //exelJDu =  File.fromRawPath(fileByte!);
+  return file;
 }
-
-
-
- 
