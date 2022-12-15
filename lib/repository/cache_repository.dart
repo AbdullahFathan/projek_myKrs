@@ -11,8 +11,8 @@ class Cache {
     print("has write [cahce_repository.dart]");
   }
 
-  static Future getData(String key) async {
-    final result = await box.read(key);
+  static Future<String> getData(String key) async {
+    String result = await box.read(key);
     return result;
   }
 

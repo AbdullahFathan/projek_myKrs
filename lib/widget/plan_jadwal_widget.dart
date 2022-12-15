@@ -117,6 +117,40 @@ Future infoMakul(BuildContext context) async {
           
         ],
       ),
+      actions: [
+        OutlinedButton(
+            onPressed: () => Navigator.pop(context),
+            style: OutlinedButton.styleFrom(
+                alignment: Alignment.center,
+                fixedSize: const Size(132, 32),
+                side: const BorderSide(color: darkBlueColors),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8))),
+            child: Text(
+              "HAPUS",
+              style: dropDownTextStyle.copyWith(color: Colors.red[400]),
+            ),
+          ),
+
+          // TOMBOL KONFIRMASI
+          OutlinedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            style: OutlinedButton.styleFrom(
+                backgroundColor: darkBlueColors,
+                alignment: Alignment.center,
+                fixedSize: const Size(132, 32),
+                side: const BorderSide(color: darkBlueColors),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8))),
+            child: Text(
+              "OK",
+              style: whiteSubtitle.copyWith(
+                  fontSize: 18, fontWeight: FontWeight.w500),
+            ),
+          ),
+      ],
     ),
   );
   

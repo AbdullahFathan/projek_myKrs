@@ -1,11 +1,7 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mykrs_projek/models/data_dummy.dart';
 import 'package:mykrs_projek/util/color_textstyle.dart';
 
 import '../bloc/jdu/jdu_bloc.dart';
@@ -37,17 +33,29 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
   @override
   Widget build(BuildContext context) {
     double lebar = MediaQuery.of(context).size.width;
-    return Scaffold(
-      body: SingleChildScrollView(
-        controller: controller,
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 2,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.52,
-                child: Stack(children: [
+    return BlocConsumer<JduBloc, JduState>(
+      listener: (context, state) {
+        if (state is POSTJduEror) {
+          print("eror at state postJDu eror ${state.text}");
+        } else if (state is POSTJduSuccess) {
+          context.read<JduBloc>().add(GetJDU());
+        }
+      },
+      builder: (context, state) {
+        if (state is POSTJduLoading) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        return Scaffold(
+          body: SingleChildScrollView(
+            controller: controller,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Stack(children: [
                   HeaderWeb(isAnotherCircle: true),
                   //TITLE WEB
                   Positioned(
@@ -116,9 +124,7 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                                     borderRadius: BorderRadius.circular(8)),
                               ),
                               onPressed: () async {
-                                var fileUser = await getFile();
-                                exelJDu = fileUser;
-                                print("exeljdu memiliki data");
+                                await getFile(context);
                               },
                               child: Text(
                                 "Unggah",
@@ -159,121 +165,154 @@ class _UnggahJadwalPageState extends State<UnggahJadwalPage> {
                     ),
                   ),
                 ]),
-              ),
-              Container(
-                width: lebar,
-                padding: const EdgeInsets.only(left: 15, right: 15, top: 35),
-                height: 700,
-                color: darkBlueColors,
-                child: Center(
-                  child: Column(
-                    children: [
-                      Container(
-                          margin: const EdgeInsets.only(top: 30),
-                          width: lebar,
-                          height: 45,
-                          //HEADER COLUMN 1 TABEL
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
+                Container(
+                  width: lebar,
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 35),
+                  height: 700,
+                  color: darkBlueColors,
+                  child: Center(
+                    child: BlocBuilder<JduBloc, JduState>(
+                      builder: (context, state) {
+                        if (state is GEtJduLoading) {
+                          return const CircularProgressIndicator();
+                        } else if (state is GETJduEror) {
+                          return Text(state.text);
+                        } else if (state is GETJduSuccess) {
+                          return Column(
                             children: [
-                              rowPertama("Tahun Kurikulum"),
-                              rowPertama("Hari"),
-                              rowPertama("Jam"),
-                              rowPertama("Kode MK"),
-                              rowPertama("Nama MK"),
-                              rowPertama("Kelas"),
-                              rowPertama("SKS"),
-                              rowPertama("Peminat"),
-                            ],
-                          )),
-                      Container(
-                          width: lebar,
-                          height: 550,
-                          color: whiteColor,
-                          child: ListView.builder(
-                            itemCount: allDataMatkul.length,
-                            itemBuilder: (context, index) {
-                              return SizedBox(
-                                width: lebar,
-                                height: 40,
-                                child: Row(
-                                  children: [
-                                    dataTable(
-                                        allDataMatkul[index].tahunKurikulm,
-                                        index),
-                                    dataTable(allDataMatkul[index].hari, index),
-                                    dataTable(allDataMatkul[index].jam, index),
-                                    dataTable(
-                                        allDataMatkul[index].kodeMK, index),
-                                    //Nama matkul
-                                    Container(
-                                      width: 170,
-                                      height: 50,
-                                      color: (index % 2 == 0)
-                                          ? tabelColor2
-                                          : whiteColor,
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              allDataMatkul[index].namaMK,
-                                              style: tableTextStyle,
+                              Container(
+                                  margin: const EdgeInsets.only(top: 30),
+                                  width: lebar,
+                                  height: 45,
+                                  //HEADER COLUMN 1 TABEL
+                                  child: ListView(
+                                    scrollDirection: Axis.horizontal,
+                                    children: [
+                                      rowPertama("Tahun Kurikulum"),
+                                      rowPertama("Hari"),
+                                      rowPertama("Jam"),
+                                      rowPertama("Kode MK"),
+                                      rowPertama("Nama MK"),
+                                      rowPertama("Kelas"),
+                                      rowPertama("SKS"),
+                                      rowPertama("Peminat"),
+                                    ],
+                                  )),
+                              Container(
+                                  width: lebar,
+                                  height: 550,
+                                  color: whiteColor,
+                                  child: ListView.builder(
+                                    itemCount: state.dataJDU.length,
+                                    itemBuilder: (context, index) {
+                                      var data = state.dataJDU[index];
+                                      String hari = "";
+                                      switch (
+                                          data.waktuJadwalUser![index].hari) {
+                                        case 1:
+                                          hari = "Senin";
+                                          break;
+                                        case 2:
+                                          hari = "Selasa";
+                                          break;
+                                        case 3:
+                                          hari = "Rabu";
+                                          break;
+                                        case 4:
+                                          hari = "Kamis";
+                                          break;
+                                        case 5:
+                                          hari = "Jumat";
+                                          break;
+                                      }
+                                      String? jamMatkul =
+                                          "${data.waktuJadwalUser![0].jamMulai} - ${data.waktuJadwalUser![0].jamAkhir}";
+                                      return SizedBox(
+                                        width: lebar,
+                                        height: 40,
+                                        child: Row(
+                                          children: [
+                                            dataTable(
+                                                data.tahunKurikulum!, index),
+                                            dataTable(hari, index),
+                                            dataTable(jamMatkul, index),
+                                            dataTable(data.kode, index),
+                                            //Nama matkul
+                                            Container(
+                                              width: 170,
+                                              height: 50,
+                                              color: (index % 2 == 0)
+                                                  ? tabelColor2
+                                                  : whiteColor,
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      "${data.mataKuliah}",
+                                                      style: tableTextStyle,
+                                                    ),
+                                                  ),
+                                                  IconButton(
+                                                      onPressed: () {},
+                                                      icon: const Icon(
+                                                        Icons.create,
+                                                        size: 12,
+                                                      )),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          IconButton(
-                                              onPressed: () {},
-                                              icon: const Icon(
-                                                Icons.create,
-                                                size: 12,
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                    dataTable(
-                                        allDataMatkul[index].kelas, index),
-                                    dataTable(allDataMatkul[index].sks, index,
-                                        pading: 25),
-                                    Container(
-                                      width: 146,
-                                      height: 50,
-                                      color: (index % 2 == 0)
-                                          ? tabelColor2
-                                          : whiteColor,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            allDataMatkul[index].peminat,
-                                            style: tableTextStyle,
-                                          ),
-                                          const SizedBox(
-                                            width: 4,
-                                          ),
-                                          IconButton(
-                                              onPressed: () {},
-                                              icon: const Icon(
-                                                Icons.create,
-                                                size: 12,
-                                              )),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                          ))
-                    ],
+                                            dataTable(data.kelas, index),
+                                            dataTable(data.sks, index,
+                                                pading: 25),
+                                            Container(
+                                              width: 146,
+                                              height: 50,
+                                              color: (index % 2 == 0)
+                                                  ? tabelColor2
+                                                  : whiteColor,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "0/30",
+                                                    style: tableTextStyle,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 4,
+                                                  ),
+                                                  IconButton(
+                                                      onPressed: () {},
+                                                      icon: const Icon(
+                                                        Icons.create,
+                                                        size: 12,
+                                                      )),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ))
+                            ],
+                          );
+                        }
+                        return Text(
+                          "SILAKAN UPLOAD FILE EXEL DULU",
+                          style: whitetitleStyle,
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-              const GradienColor(),
-              const BottomWidget(),
-            ],
+                const GradienColor(),
+                const BottomWidget(),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
@@ -303,7 +342,7 @@ Widget rowPertama(String kata) => Container(
     );
 
 Widget dataTable(
-  String kata,
+  var kata,
   int index, {
   double pading = 45,
 }) =>
@@ -316,7 +355,7 @@ Widget dataTable(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            kata,
+            "$kata",
             style: tableTextStyle,
           ),
           const SizedBox(
@@ -369,10 +408,7 @@ Future _showDialog(BuildContext context) async {
           // TOMBOL KONFIRMASI
           OutlinedButton(
             onPressed: () {
-              context.read<JduBloc>().add(
-                  PostJDU(exelJDu, "DAFFA MANO: JAKLMIASMD", "daff@daffa.com"));
-                  print("menuju ke jdu bloc");
-              //Navigator.pop(context);
+              Navigator.pop(context);
             },
             style: OutlinedButton.styleFrom(
                 backgroundColor: darkBlueColors,
@@ -394,8 +430,7 @@ Future _showDialog(BuildContext context) async {
 }
 
 // fungsi untuk upload file
-Future getFile() async {
- 
+Future getFile(BuildContext context) async {
   final result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
     allowedExtensions: ["xlsx"],
@@ -406,13 +441,10 @@ Future getFile() async {
   final file = result.files.first;
   print("name : ${file.name}");
   print("type : ${file.extension}");
-  // final fileByte = file.bytes;
-
-  // Iterable<int> myfile = fileByte as Iterable<int>;
-
-  // print("coba string byte : ${String.fromCharCodes(myfile)}");
 
   //File fileExel =  File.fromRawPath(file.bytes!);
-  print("file akan di return");
-  return file;
+  context.read<JduBloc>().add(PostJDU(file));
+  print("menuju ke jdu bloc");
+  //print("file akan di return");
+  //return file;
 }

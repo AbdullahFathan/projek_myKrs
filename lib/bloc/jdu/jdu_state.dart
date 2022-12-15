@@ -5,13 +5,29 @@ abstract class JduState {}
 
 class JduInitial extends JduState {}
 
-class JduSuccess extends JduState {}
+class POSTJduSuccess extends JduState {}
 
-class JduLoading extends JduState {}
+class POSTJduLoading extends JduState {}
 
-class JduEror extends JduState {
+class POSTJduEror extends JduState {
   final String text;
-  JduEror(
+  POSTJduEror(
     this.text,
   );
+}
+
+class GETJduSuccess extends JduState {
+  List<Matkul> dataJDU;
+  GETJduSuccess(
+    this.dataJDU,
+  );
+}
+
+class GEtJduLoading extends JduState {}
+
+class GETJduEror extends JduState {
+  final String text;
+
+  GETJduEror(this.text);
+  
 }

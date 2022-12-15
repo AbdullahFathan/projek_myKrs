@@ -2,11 +2,9 @@
 //
 //     final matkul = matkulFromJson(jsonString);
 
-import 'dart:convert';
 
-Matkul matkulFromJson(String str) => Matkul.fromJson(json.decode(str));
 
-String matkulToJson(Matkul data) => json.encode(data.toJson());
+
 
 class Matkul {
     Matkul({
@@ -43,43 +41,31 @@ class Matkul {
         waktuJadwalUser: List<WaktuJadwalUser>.from(json["WaktuJadwalUser"].map((x) => WaktuJadwalUser.fromJson(x))),
     );
 
-    Map<String, dynamic> toJson() => {
-        "ID": id,
-        "Kelas": kelas,
-        "ProgramStudi": programStudi,
-        "Kode": kode,
-        "MataKuliah": mataKuliah,
-        "TahunKurikulum": tahunKurikulum,
-        "Sks": sks,
-        "Tipe": tipe,
-        "WaktuJadwalUser": List<dynamic>.from(waktuJadwalUser!.map((x) => x.toJson())),
-    };
+    
 }
 
 class WaktuJadwalUser {
     WaktuJadwalUser({
         this.id,
+        this.jadwalDariUserId,
         this.hari,
         this.jamMulai,
         this.jamAkhir,
     });
 
     int? id;
+    int? jadwalDariUserId;
     int? hari;
     String? jamMulai;
     String? jamAkhir;
 
     factory WaktuJadwalUser.fromJson(Map<String, dynamic> json) => WaktuJadwalUser(
         id: json["ID"],
+        jadwalDariUserId: json["JadwalDariUserID"],
         hari: json["Hari"],
         jamMulai: json["JamMulai"],
         jamAkhir: json["JamAkhir"],
     );
 
-    Map<String, dynamic> toJson() => {
-        "ID": id,
-        "Hari": hari,
-        "JamMulai": jamMulai,
-        "JamAkhir": jamAkhir,
-    };
+
 }

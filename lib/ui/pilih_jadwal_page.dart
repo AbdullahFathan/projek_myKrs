@@ -254,6 +254,7 @@ getRow(List<DataMatkul> data) => data
             index: i,
             width: 145,
           )),
+      
           DataCell(BoxRow(kata: item.hari, index: i, width: 145)),
           DataCell(BoxRow(kata: item.jam, index: i, width: 145)),
           DataCell(BoxRow(kata: item.kodeMK, index: i, width: 145)),

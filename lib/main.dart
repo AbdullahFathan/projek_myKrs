@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mykrs_projek/bloc/jdu/jdu_bloc.dart';
+
+import 'package:mykrs_projek/ui/login_page.dart';
 import 'package:mykrs_projek/ui/unggah_jadwal_page.dart';
 
 
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => AuthBloc()..add(IsHasLogin())),
+        BlocProvider(create: (context) => AuthBloc()),
         BlocProvider(create: (context) => JduBloc()),
       ],
       child: MaterialApp(
